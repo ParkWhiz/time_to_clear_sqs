@@ -1,0 +1,4 @@
+[general]
+queue=Queue-Name
+region=us-west-2
+namespace=MyCloudwatchNamespace
