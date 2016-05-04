@@ -5,4 +5,4 @@ COPY . /app
 
 RUN bundle install
 
-CMD ruby time_to_clear.rb
+CMD ./time_to_clear.rb
