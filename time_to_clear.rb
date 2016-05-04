@@ -7,7 +7,7 @@ class CloudWatchClient
   def initialize(aws_access_key_id, aws_secret_access_key, region, queue_name, namespace)
     @queue_name = queue_name
     @namespace = namespace
-    @cw = Aws::CloudWatch::Client.new(:access_key_id: aws_access_key_id,
+    @cw = Aws::CloudWatch::Client.new(access_key_id: aws_access_key_id,
                                       secret_access_key: aws_secret_access_key,
                                       region: region)
   end
@@ -52,10 +52,13 @@ end
 # http://stackoverflow.com/questions/2206714/can-a-ruby-script-tell-what-directory-it-s-in
 script_dir = File.expand_path(File.dirname(__FILE__))
 ini_file = File.join(script_dir, "time_to_clear.ini")
-settings = IniFile.load(ini_file)
+settings = IniFile.load(ini_file)["general"]
 
-client = CloudWatchClient.new(**settings["general"])
-
+client = CloudWatchClient.new(settings["aws_access_key_id"], 
+                              settings["aws_secret_access_key"],
+                              settings["region"],
+                              settings["queue"],
+                              settings["namespace"])
 current_max = 0
 peak_time = nil
 prev_timestamp = nil
