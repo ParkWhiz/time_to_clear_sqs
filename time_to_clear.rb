@@ -4,10 +4,12 @@ require "aws-sdk"
 require "inifile"
 
 class CloudWatchClient
-  def initialize(region, queue_name, namespace)
+  def initialize(aws_access_key_id, aws_secret_access_key, region, queue_name, namespace)
     @queue_name = queue_name
     @namespace = namespace
-    @cw = Aws::CloudWatch::Client.new(region: region)
+    @cw = Aws::CloudWatch::Client.new(:access_key_id: aws_access_key_id,
+                                      secret_access_key: aws_secret_access_key,
+                                      region: region)
   end
 
   def get_data
@@ -52,11 +54,7 @@ script_dir = File.expand_path(File.dirname(__FILE__))
 ini_file = File.join(script_dir, "time_to_clear.ini")
 settings = IniFile.load(ini_file)
 
-queue_name = settings["general"]["queue"]
-region = settings["general"]["region"]
-namespace = settings["general"]["namespace"]
-
-client = CloudWatchClient.new(region, queue_name, namespace)
+client = CloudWatchClient.new(**settings["general"])
 
 current_max = 0
 peak_time = nil
