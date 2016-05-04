@@ -1,4 +1,12 @@
 [general]
+# Name of the SQS queue to track
 queue=Queue-Name
-region=us-west-2
+
+# Metrics will be published in the cloudwatch namespace: [namespace]/SQS
 namespace=MyCloudwatchNamespace
+
+# AWS credentials. The user needs to have the following permissions:
+# cloudwatch:getMetricStatistics, cloudwatch.PutMetricData
+region=us-west-2
+aws_access_key_id=MY_AWS_ACCESS_KEY
+aws_secret_access_key=MY_AWS_SECRET_ACCESS_KEY
