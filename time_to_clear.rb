@@ -57,12 +57,14 @@ region = settings["region"] || ENV["AWS_REGION"]
 access_key_id = settings["aws_access_key_id"] || ENV["AWS_ACCESS_KEY_ID"]
 secret_access_key = (settings["aws_secret_access_key"] || 
                      ENV["AWS_SECRET_ACCESS_KEY"])
+queue = settings["queue"] || ENV["TIME_TO_CLEAR_SQS_QUEUE"]
+namespace = settings["namespace"] || ENV["TIME_TO_CLEAR_SQS_NAMESPACE"]
 
 client = CloudWatchClient.new(access_key_id,
                               secret_access_key,
                               region,
-                              settings["queue"],
-                              settings["namespace"])
+                              queue,
+                              namespace)
 current_max = 0
 peak_time = nil
 prev_timestamp = nil
