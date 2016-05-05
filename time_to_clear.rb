@@ -53,10 +53,14 @@ end
 script_dir = File.expand_path(File.dirname(__FILE__))
 ini_file = File.join(script_dir, "time_to_clear.ini")
 settings = IniFile.load(ini_file)["general"]
+region = settings["region"] || ENV["AWS_REGION"]
+access_key_id = settings["aws_access_key_id"] || ENV["AWS_ACCESS_KEY_ID"]
+secret_access_key = (settings["aws_secret_access_key"] || 
+                     ENV["AWS_SECRET_ACCESS_KEY"])
 
-client = CloudWatchClient.new(settings["aws_access_key_id"], 
-                              settings["aws_secret_access_key"],
-                              settings["region"],
+client = CloudWatchClient.new(access_key_id,
+                              secret_access_key,
+                              region,
                               settings["queue"],
                               settings["namespace"])
 current_max = 0
